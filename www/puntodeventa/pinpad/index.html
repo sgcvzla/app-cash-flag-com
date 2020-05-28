@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cash-Flag - PINPAD</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="contenido">
+      <div class="area-visor">
+        <input id="pin" type="password" class="visor" readonly />
+        <!--       <span class="visor">****</span> -->
+      </div>
+      <div class="botones">
+        <button id="b-7" class="boton-individual" onclick="numero(this.id)">7</button>
+        <button id="b-8" class="boton-individual" onclick="numero(this.id)">8</button>
+        <button id="b-9" class="boton-individual" onclick="numero(this.id)">9</button>
+      </div>
+      <div class="botones">
+        <button id="b-4" class="boton-individual" onclick="numero(this.id)">4</button>
+        <button id="b-5" class="boton-individual" onclick="numero(this.id)">5</button>
+        <button id="b-6" class="boton-individual" onclick="numero(this.id)">6</button>
+      </div>
+      <div class="botones">
+        <button id="b-1" class="boton-individual" onclick="numero(this.id)">1</button>
+        <button id="b-2" class="boton-individual" onclick="numero(this.id)">2</button>
+        <button id="b-3" class="boton-individual" onclick="numero(this.id)">3</button>
+      </div>
+      <div class="botones">
+        <button id="b-c" class="boton-individual borrar" onclick="borrar()">C</button>
+        <button id="b-0" class="boton-individual" onclick="numero(this.id)">0</button>
+        <button id="b-ok" class="boton-individual entrar" onclick="ok()">OK</button>
+      </div>
+    </div>
+    <!-- <p id="mensaje" style="text-align: center;"></p> -->
+  </div>
+  <script  src="./script.js"></script>
+</body>
+</html>

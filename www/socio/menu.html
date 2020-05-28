@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, scalable=yes"> -->
+		<title>Cash-Flag</title>
+		<link rel="stylesheet" href="menu.css">
+		<script type="text/javascript" src="../js/funciones.js"></script>
+	</head>
+	<body onload="inicio()">
+		<div id="container">
+			<div class="logo" align="center">
+				<img class="img-logo" id="logo" src="../img/logoclub.png" alt="">
+			</div>
+			<h2 style="text-align: center; color: black;">Servicios al socio</h2>
+			<h3 id="socio" style="text-align: center; color: black;"></h3>
+			<div id="div1" align="center">
+				<!-- <h3>Menú principal</h3> -->
+				<br/>
+				<div id="comercios" class="catalogo">
+					<a id="cuponera" href="../cuponera/index.html" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center">
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+								Cuponera
+							</div>
+						</div>
+					</a>
+					<a id="tarjetero" href="../tarjetero/index.html" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center">
+								<!-- <img class="img_opcion" src="" title="Referidos" /> -->
+								Tarjetero
+							</div>
+						</div>
+					</a>
+
+					<a id="transacciones" href="./transacciones/index.html" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center">
+								<!-- <img class="img_opcion" src="" title="Referidos" /> -->
+								Aprobar transacciones
+							</div>
+						</div>
+					</a>
+
+
+					<a id="prepago" href="../prepago/comprasocio.html" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center"> 
+								<!-- <img class="img_opcion" src="" title="Referidos" /> -->
+								Recarga de tarjetas prepagadas
+							</div>
+						</div>
+					</a>
+
+					<a id="giftcards" href="../giftcards/comprasocio.html" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center"> 
+								<!-- <img class="img_opcion" src="" title="Referidos" /> -->
+								Compra de tarjetas de regalo
+							</div>
+						</div>
+					</a>
+					<a id="lector" href="../lector/index.html?menu=socio" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center">
+								<!-- <img class="img_opcion" src="" title="Lector" /> -->
+								Lector de códigos QR
+							</div>
+						</div>
+					</a>
+					<!--
+					<a id="helpdesk" href="" onclick="alert('En Construcción, escribe un email a sgcvzla@gmail.com\npara enterarte de la fecha de lanzamiento.')">
+						<div class="item" align="center">
+							<div class="imagen" align="center">-->
+								<!-- <img class="img_opcion" src="" title="Mesa de ayuda" /> --><!--
+								Mesa de ayuda y solicitudes especiales
+							</div>
+						</div>
+					</a>
+					-->
+					<a id="salir" href="" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center">
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+								Salir de la aplicación
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			// Inicializa la aplicación
+			function inicio() {
+				console.log(sessionStorage);
+				let idsocio = sessionStorage.getItem("idsocio");
+				salir.href = sessionStorage.getItem("url_back");
+				sessionStorage.setItem("url_bck2",window.location);
+
+				let xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function () {
+					if (this.readyState == 4 && this.status == 200) {
+						respuesta = JSON.parse(this.responseText);
+						if (respuesta.exito == 'SI') {
+							socio.innerHTML = respuesta.nombres+" "+respuesta.apellidos;
+						}
+					}
+				};
+				xmlhttp.open("GET", "https://app.cash-flag.com/php/socios.php?idsocio="+idsocio, true);
+				xmlhttp.send();
+
+			}
+		</script>
+	</body>
+</html>

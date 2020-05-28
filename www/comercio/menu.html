@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, scalable=yes"> -->
+		<title>Cash-Flag</title>
+		<link rel="stylesheet" href="menu.css">
+		<script type="text/javascript" src="../js/funciones.js"></script>
+	</head>
+	<body onload="inicio()">
+		<div id="container">
+			<div class="logo" align="center">
+				<img class="img-logo" id="logo" src="" alt="">
+			</div>
+			<h2 style="text-align: center; color: black;">Servicios al comercio</h2>
+			<!-- <h5 style="text-align: center; color: black;"></h5> -->
+			<div id="div1" align="center">
+				<!-- <h3>Menú principal</h3> -->
+				<br/>
+				<div id="comercios" class="catalogo">
+					<a id="canje" href="../canje/canje.html" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center">
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+								Canjear cupones
+							</div>
+						</div>
+					</a>
+
+					<a id="cobro" href="../puntodeventa/index.html" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center">
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+								Recibir pagos
+							</div>
+						</div>
+					</a>
+
+					<a id="cobro" href="./transacciones/index.html" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center">
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+								Confirmar reportes de pago
+							</div>
+						</div>
+					</a>
+
+					<a id="registrausuarios" href="../afiliacion/index.html" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center">
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+								Afiliación de nuevos usuarios
+							</div>
+						</div>
+					</a>
+
+					<a id="prepago" href="../prepago/index.html" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center">
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+								Recargar tarjetas prepagadas
+							</div>
+						</div>
+					</a>
+
+					<a id="giftcards" href="../giftcards/index.html" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center">
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+								Vender tarjetas de regalo
+							</div>
+						</div>
+					</a>
+
+					<a id="clavecanje" href="./admin/index.html" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center">
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+								Cambiar clave para validar cupones
+							</div>
+						</div>
+					</a>
+
+					<a id="salir" href="" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center">
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+								Salir de la aplicación
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<script>
+			function inicio() {
+				console.log(sessionStorage);
+				let idproveedor = sessionStorage.getItem("idproveedor");
+				logo.src = "../img/" + sessionStorage.getItem("logoprov");
+				logo.title = sessionStorage.getItem("nombreprov");
+				salir.href = sessionStorage.getItem("url_back");
+				sessionStorage.setItem("url_bck2",window.location);
+			}
+		</script>
+	</body>
+</html>
+
+					<!-- 
+					<a id="cuponera" href="" onclick="alert('En construcción')">
+						<div class="item" align="center">
+							<div class="imagen" align="center"> -->
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+					<!-- 								Seguimiento de órdenes
+							</div>
+						</div>
+					</a>
+					-->					
+					<!--
+					<a id="premios" href="" onclick="alert('En construcción')">
+						<div class="item" align="center">
+							<div class="imagen" align="center"> -->
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+							<!--	Administrar premios
+							</div>
+						</div>
+					</a>
+
+					<a id="cuponera" href="" onclick="alert('En construcción')">
+						<div class="item" align="center">
+							<div class="imagen" align="center"> -->
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+					<!-- 								Administrar catálogo
+							</div>
+						</div>
+					</a>
+
+					<a id="cuponera" href="" onclick="alert('En construcción')">
+						<div class="item" align="center">
+							<div class="imagen" align="center"> -->
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+					<!--								Mesa de ayuda y solicitudes especiales
+							</div>
+						</div>
+					</a>
+
+					<a id="cuponera" href="" onclick="alert('En construcción')">
+						<div class="item" align="center">
+							<div class="imagen" align="center"> -->
+								<!-- <img class="img_opcion" src="" title="Cuponera" /> -->
+					<!-- 								e-Mail masivo
+							</div>
+						</div>
+					</a>
+
+					<a id="lector" href="../lector/index.html?menu=comercio" onclick="">
+						<div class="item" align="center">
+							<div class="imagen" align="center"> -->
+								<!-- <img class="img_opcion" src="" title="Lector" /> -->
+					<!--			Lector de códigos QR
+							</div>
+						</div>
+					</a>
+					-->
+
+<!-- 
+				// let xmlhttp = new XMLHttpRequest();
+				// xmlhttp.onreadystatechange = function () {
+				// 	if (this.readyState == 4 && this.status == 200) {
+				// 		respuesta = JSON.parse(this.responseText);
+				// 		if (respuesta.exito == 'SI') {
+				// 			// // document.title = 'Menú principal';
+				// 			// console.log(respuesta);
+				// 			// logo = respuesta.proveedor.logo;
+				// 			// if (logo!="") {
+				// 			// 	document.getElementById("logo").src = "../img/" + logo;
+				// 			// } else {
+				// 			// 	document.getElementById("logo").src = "../img/" + 'sin_imagen.jpg';
+				// 			// }
+				// 			document.getElementById("logo").title = respuesta.proveedor.nombre;
+				// 		}
+				// 	}
+				// };
+				// xmlhttp.open("GET", "https://app.cash-flag.com/php/proveedores.php?prov="+idproveedor, true);
+				// xmlhttp.send();
+ -->

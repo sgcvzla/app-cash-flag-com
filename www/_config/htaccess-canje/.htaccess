@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^canje.app.cash-flag.com$
+  RewriteRule (.*)$ http://www.app.cash-flag.com/canje/$1 [R=301,L]
+</IfModule>

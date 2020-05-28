@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Punto de venta Cash-Flag - Código proveedor</title>
+  <link rel="stylesheet" href="./style_qr.css">
+  <script type="text/javascript" src="../js/funciones.js"></script>
+</head>
+<body onload="inicio()">
+  <div class="container">
+    <div class="contenido">
+      <span id="mensaje_qr">Generando código QR del comercio, por favor espera...</span>
+      <img id="codigo_qr" style="margin:auto; width: 100%" src="" />
+      <div class="btns">
+        <button id="btnvolver" style="margin: 0.5em 0 0 0;" onclick="window.close()">Cerrar</button>
+      </div>
+    </div>
+    <!-- <p id="mensaje" style="text-align: center;"></p> -->
+  </div>
+  <script type="text/javascript">
+    function inicio() {
+      let params = fparamurl(window.location.search.substr(1));
+
+      let xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          respuesta = this.responseText;
+          mensaje_qr.style.display = 'none';
+          codigo_qr.src = 'https://app.cash-flag.com/php/'+respuesta;
+          codigo_qr.style.display = 'block';
+        }
+      };
+      xmlhttp.open("GET", "https://app.cash-flag.com/php/generaQrPDV.php?p="+params.idp, true);
+      xmlhttp.send();
+
+    }
+  </script>
+</body>
+</html>

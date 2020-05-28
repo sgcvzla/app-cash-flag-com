@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, scalable=yes"> -->
+		<title>Cash-Flag</title>
+		<link rel="stylesheet" href="./puntodeventa.css">
+	    <script src="../lib/socket.io.js"></script>
+		<script type="text/javascript" src="../js/classes.js"></script>
+		<script type="text/javascript" src="../js/funciones.js"></script>
+		<script type="text/javascript" src="./puntodeventa.js"></script>
+		<script type="text/javascript" src="../lector/instascan.min.js"></script>
+	</head>
+	<body id="cuerpo" onload="inicio()">
+		<div id="container">
+			<div class="logo" align="center">
+				<img class="img-logo" id="logo" src="" alt="">
+			</div>
+			<h2 style="text-align: center; color: black;">Cash-Flag</h2>
+			<!--
+			<div class="logo" align="center">
+				<img id="logo" src="../img/logoclub.png" alt="" />
+			</div>
+			 -->
+			<h3 align="center">PUNTO DE VENTA</h3>
+			<div id="div1" align="center">
+				<div id="div20" class="cmps">
+					<span class="etiq">Método de cobro:</span>
+					<!-- <select id="divisa" class="campo"> -->
+<!-- 						<option value="qr">Escanear código QR de la tarjeta</option>
+						<option value="manual">Introducir número de tarjeta</option>
+ -->					<!-- </select> -->
+					<div class="sel-radio">
+						<div style="width: 100%; text-align: left;">
+							<input class="valores" type="radio" name="tipo-cobro" value="qr" placeholder="Escanear código QR de la tarjeta" onclick="formacobro('qr')" checked />
+							<span class="span_pdv" style="width: auto;">Escanear tarjeta para enviar transacción</span>
+						</div>
+						<div style="width: 100%; text-align: left;">
+							<input class="valores" type="radio" name="tipo-cobro" value="manual" placeholder="Introducir número de tarjeta" onclick="formacobro('manual')" />
+							<span class="span_pdv" style="width: auto;">Ingresar transacción manualmente</span>
+						</div>
+					</div>
+				</div>
+				<!-- Moneda -->
+				<div id="div0" class="cmps">
+					<span class="etiq">Moneda:</span>
+					<select id="divisa" class="campo">
+						<option value="bs">Bolívares (Bs.)</option>
+						<option value="dolar">Dólares (US$)</option>
+						<!-- <option value="cripto">Criptomonedas (BTC, ETH, DASH, LTC, BNB, USDT)</option> -->
+					</select>
+				</div>
+				<!-- Monto -->
+				<div id="div7" class="cmps">
+					<span class="etiq">Monto:</span>
+					<input id="monto" class="campo" type="text" size="50" maxlength="12" title="Debe introducir sólo números o el . como separador decimal" style="text-align: right;"/>
+				</div>
+				<!-- Botones para enviar la transacción directa -->
+<!-- 				<div class="btns">
+					<button id="qr-read" onclick="scanearQR()">Escanear QR</button>
+				</div>
+ -->				<!-- Tarjeta -->
+				<!-- <h5 style="text-align: left; padding-top: 1em;"><u>Si desea introducir datos manualmente:</u></h5> -->
+
+				<div id="div10_1" class="cmps btns">
+					<button id="qr-read" style="margin-top: 0; width: 10em;"onclick="scanearQR()">QR tarjeta</button>
+				</div>
+
+
+				<div id="div10_2" class="cmps">
+					<span class="etiq">Número de tarjeta:</span>
+					<!-- <div class="campo" style="display: inline-flex;"> -->
+						<!-- <div> -->
+							<input id="tarjeta" class="campo" type="text" size="50" maxlength="16" title="Debe introducir sólo números" />
+							<!-- <input id="tarjeta" type="text" size="35" maxlength="16" title="Debe introducir sólo números" /> -->
+						<!-- </div> -->
+						<!-- <button id="qr-read" style="margin-top: 0; width: "onclick="scanearQR()">QR</button> -->
+					<!-- </div> -->
+				</div>
+				<!-- Linea de botones -->
+				<!-- <div class="opciones"> -->
+					<!-- <div class="btns"> -->
+						<!-- <button id="btnescanearqr" onclick="cobro('escanear')">Escanear QR</button> -->
+						<!-- <button id="btnpresentarqr" onclick="cobro('presentar')">Presentar QR</button> -->
+					<!-- </div> -->
+				<!-- </div> -->
+				<div id="btn_enviar" class="btns">
+					<!-- <button id="btnpinpad" onclick="pinpad()">Pin pad</button> -->
+					<button id="btnenviar" onclick="enviar()">Enviar</button>
+				</div>
+				<div class="btns">
+					<!-- <button id="qr-show" style="width: 15em;" onclick="mostrarQR()">QR del comercio</button> -->
+					<button id="limpiar" onclick="limpiar()">Limpiar</button>
+					<button id="btnvolver" style="margin: 0.5em 0 0 0;">Volver</button>
+				</div>
+				<!-- <div class="pie_link" style="text-align: left; margin-top: 1em;"> -->
+				<div class="pie_link">
+					<a href="" id="qr-show" style="width: 15em; font-size: 75%;" onclick="mostrarQR()">haga click aquí para mostrar QR del comercio</a>
+			</div>					
+			</div>
+			<div id="div11" style="border: solid thin lightgray; padding: 0 0 0.5em 0;">
+				<h4 style="text-align: center; width: auto; padding: 0.5em; border: solid thin gray; background: gray;">
+					<u>Transacciones del día</u><br/>
+					<span style="font-size: 85%;">
+						(Haz clic sobre la fila para activar el pin pad y confirmar manualmente)
+					</span>
+				</h4>
+				<div id="transaccionespendientes" style="margin: 0 0 0 0;">
+					<div id="f-t" class="fila titulo">
+						<div id="" class="columna1">
+							Tarjeta
+						</div>
+						<div id="" class="columna2">
+							Referencia
+						</div>
+						<div id="" class="columna3">
+							Monto
+						</div>
+						<div id="" class="columna4">
+							Status
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div id="modal_area" class="area_modal" style="display: none;">
+			<p align="center" style="margin-top: 0.25em;">Coloque el código en el siguiente recuadro, al ser leído se redireccionará su navegador a la sección que corresponda.</p>
+			<div class="framevideo" >
+				<div class="frame2">
+					<video id="preview" class="vd"></video>
+					<div class="scanner-laser laser-rightBottom"></div>
+					<div class="scanner-laser laser-rightTop"></div>
+					<div class="scanner-laser laser-leftBottom"></div>
+					<div class="scanner-laser laser-leftTop"></div>
+				</div>
+			</div>
+			<div style="width: 100%; margin-top: 46%; text-align: center;">
+				<p id="mensaje" align="center"></p>
+				<br/>
+				<button id="volver_lector" style="width: 60px; height: 30px; margin: auto;" onclick="cerrar_lector()">Cerrar</button>
+				<audio id="beep" src="" />
+			</div>
+		</div>
+		<script>
+
+			// socket.on('card', function(msg){
+			// 	datos = JSON.parse(msg);
+			// 	console.log(msg);
+			// 	console.log('verificacion_card '+datos);
+			// });
+
+		</script>
+ 	</body>
+</html>

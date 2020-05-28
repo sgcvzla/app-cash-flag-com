@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, scalable=yes"> -->
+		<title>Cash-Flag</title>
+		<link rel="stylesheet" href="./afiliacion.css">
+		<script type="text/javascript" src="../js/funciones.js"></script>
+	</head>
+	<body onload="inicio()">
+		<div id="container">
+			<div class="logo" align="center">
+				<img class="img-logo" id="logo" src="" alt="">
+			</div>
+			<h2 style="text-align: center; color: black;">Cash-Flag</h2>
+			
+			<div class="logo" align="center">
+				<img id="logo" src="" alt="" />
+			</div>
+			
+			<h3 align="center">Afiliación de nuevos usuarios</h3>
+			<div id="div1" align="center">
+				<!-- Correo electrónico -->
+				<div id="div2" class="cmps">
+					<span class="etiq">Correo electrónico socio:</span>
+					<input id="email" class="campo" type="email" size="50" maxlength="100" title="Debe introducir un formato de email válido (incluir el @ y al menos un .)" />
+					<button id="btnemail" onclick="buscasocio()" style="width: 10em;">Buscar</button>
+				</div>
+				<!-- Nombres -->
+				<div id="div3" class="cmps" style="display: none;">
+					<span class="etiq">Nombres:</span>
+					<input id="nombres" class="campo" type="text" size="50" maxlength="100" />
+				</div>
+				<!-- Apellidos -->
+				<div id="div4" class="cmps" style="display: none;">
+					<span class="etiq">Apellidos:</span>
+					<input id="apellidos" class="campo" type="text" size="50" maxlength="100" />
+				</div>
+				<!-- Teléfono -->
+				<div id="div5" class="cmps" style="display: none;">
+					<span class="etiq">Teléfono:</span>
+					<input id="telefono" class="campo" type="text" size="50" maxlength="100" />
+				</div>
+				<div class="btns">
+					<button id="btnenviar" onclick="enviar()" style="width: 10em;">Enviar</button>
+					<button id="btnvolver" style="width: 10em; margin: 0.5em 0 0 0;">Volver</button>
+				</div>
+			</div>
+		</div>
+		<script>
+			var nombres="", apellidos="", telefono="", email="", idproveedor=sessionStorage.getItem("idproveedor"), datos = new FormData();
+
+			// limpia el formulario
+			function limpiar() {
+				email = "";
+				nombres = "";
+				apellidos = "";
+				telefono = "";
+
+				document.getElementById("email").value = "";
+				document.getElementById("nombres").value = "";
+				document.getElementById("apellidos").value = "";
+				document.getElementById("telefono").value = "";
+
+				document.getElementById("btnenviar").style.display = 'none';
+
+				div3.style.display = 'none';
+				div4.style.display = 'none';
+				div5.style.display = 'none';
+				btnemail.style.display = 'inline-block';
+
+				document.getElementById("email").focus();
+			}
+
+			function inicio() {
+				limpiar();
+				document.getElementById("btnvolver").addEventListener('click', function(){
+					window.open(sessionStorage.getItem("url_bck2"), "_self") });
+				// cargar parámetros de la tabla
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function () {
+					if (this.readyState == 4 && this.status == 200) {
+						respuesta = JSON.parse(this.responseText);
+						if (respuesta.exito == 'SI') {
+							// document.title = 'Menú principal';
+							console.log(respuesta);
+							logo = respuesta.proveedor.logo;
+							if (logo!="") {
+								document.getElementById("logo").src = "../img/" + logo;
+							} else {
+								document.getElementById("logo").src = "../img/" + 'sin_imagen.jpg';
+							}
+							document.getElementById("logo").title = respuesta.proveedor.nombre;
+						}
+					}
+				};
+				xmlhttp.open("GET", "https://app.cash-flag.com/php/proveedores.php?prov="+idproveedor, true);
+				xmlhttp.send();
+			}
+
+			// valida la entrada en los campos
+			function validaciones() {
+				var continuar = true, vacios = 0, campo = "";
+				if ((document.getElementById("email").value=="" || document.getElementById("email").value==undefined) && vacios == 0) {
+					alert("El campo correo electrónico no puede quedar en blanco");
+					vacios++;
+					campo = "email";
+					continuar = false;
+				}
+				if (document.getElementById("nombres").value=="" || document.getElementById("nombres").value==undefined) {
+					alert("El campo nombres no puede quedar en blanco");
+					vacios++;
+					campo = "nombres";
+				}
+				if ((document.getElementById("apellidos").value=="" || document.getElementById("apellidos").value==undefined) && vacios == 0) {
+					alert("El campo apellidos no puede quedar en blanco");
+					vacios++;
+					campo = "apellidos";
+				}
+				if ((document.getElementById("telefono").value=="" || document.getElementById("telefono").value==undefined) && vacios == 0) {
+					alert("El campo teléfono no puede quedar en blanco");
+					vacios++;
+					campo = "telefono";
+				}
+				if (vacios>0) { continuar = false; }
+				if (continuar) { 
+					email = document.getElementById("email").value;
+					nombres = document.getElementById("nombres").value;
+					apellidos = document.getElementById("apellidos").value;
+					telefono = document.getElementById("telefono").value;
+				} else {
+					document.getElementById(campo).focus();
+				}
+				return continuar;
+			}
+
+			function enviar() {
+				if (validaciones()) {
+					datos.append("nombres", document.getElementById("nombres").value);
+					datos.append("apellidos", document.getElementById("apellidos").value);
+					datos.append("telefono", document.getElementById("telefono").value);
+					datos.append("email", document.getElementById("email").value);
+					datos.append("idproveedor", idproveedor);
+
+					var xmlhttp = new XMLHttpRequest();
+					xmlhttp.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+							respuesta = JSON.parse(this.responseText);
+							if (respuesta.exito == 'SI') {
+								alert(respuesta.mensaje);
+								limpiar()
+							} else {
+								alert(respuesta.mensaje);
+							}
+						}
+					};
+					xmlhttp.open("POST", "https://app.cash-flag.com/php/datosafiliacion.php", false);
+					xmlhttp.send(datos);
+				}
+			}
+
+			function buscasocio() {
+				if (document.getElementById("email").value=="" || document.getElementById("email").value==undefined) {
+					alert("El campo correo electrónico no puede quedar en blanco");
+				} else {
+					var xmlhttp = new XMLHttpRequest();
+					xmlhttp.onreadystatechange = function () {
+						if (this.readyState == 4 && this.status == 200) {
+							respuesta = JSON.parse(this.responseText);
+							if (respuesta.exito == 'SI') {
+								alert("Este email ya está registrado.");
+								limpiar();
+							} else {
+								btnemail.style.display = 'none';
+								// document.title = 'Menú principal';
+								div3.style.display = 'flex';
+								div4.style.display = 'flex';
+								div5.style.display = 'flex';
+								btnenviar.style.display = 'inline-block';
+							}
+						}
+					};
+					xmlhttp.open("GET", "https://app.cash-flag.com/php/buscasocios.php?email="+document.getElementById("email").value, true);
+					xmlhttp.send();
+				}
+			}
+		</script>
+	</body>
+</html>
+<!-- 
+			function reportedepago() {
+				if (validaciones()) {
+					respuesta = datosgiftcards();
+					if (respuesta.exito=="SI") {
+						alert('Reporte de pago '+respuesta.hash);
+						// Abrir modal para pedir los datos del pago
+						// Enviar datos a registro de giftcard php con status 'Por conciliar'
+					}
+				}
+			}
+ -->
+
+
+ <!-- https://app.cash-flag.com/php/exitocompraprepago.php? -->
+ <!-- url=https://app.cash-flag.com/menu.html?id_proveedor=1& -->
+ <!-- registro={%22nombres%22:%22Jose%22,%22apellidos%22:%22Alfredo%22,%22telefono%22:%2204142752679%22,%22email%22:%22luisrodriguezestrada@hotmail.com%22,%22moneda%22:%22bs%22,%22monto%22:825,%22idproveedor%22:1,%22tipopago%22:%22online%22,%22origen%22:%22online%22,%22referencia%22:%220%22}& -->
+ <!-- tk=ROLK4E126Z& -->
+ <!-- callback=0 -->

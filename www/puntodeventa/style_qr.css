@@ -1,0 +1,41 @@
+.container {
+  background: lightgray;
+  width: 375px;
+  height: 426px;
+  margin: auto;
+  border: solid thin;
+  padding: 5px;
+  /*   position: relative; */
+}
+
+.contenido {
+  background: gray;
+  width: auto;
+  height: 423px;
+  border: solid thin;
+  margin: auto;
+  position: relative;
+  text-align: center;
+}
+
+.btns {
+    padding-top: 0.5em;
+    padding-right: 0.5em;
+    text-align: center;
+}
+
+button {
+  width: 7.4em;
+}
+
+@media only screen and (max-width: 375px) {
+  .container {
+    width: 94%;
+  }
+  .btns {
+    text-align: center;
+  }
+  button {
+    margin-top: 0.5em;
+  }
+}

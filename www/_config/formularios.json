@@ -1,0 +1,42 @@
+{
+  "cupones": {
+    "etiquetas": 
+        [
+            "Correo electrónico",
+            "Nombres",
+            "Apellidos",
+            "Número de teléfono",
+            "Número de factura",
+            "Monto de la compra",
+            "Desea afiliarse a nuestro programa de beneficios Cash-Flag?"
+        ],
+        "campos": [
+            "email",
+            "nombres",
+            "apellidos",
+            "telefono",
+            "factura",
+            "monto",
+            "socio",
+            "id_proveedor"
+        ]
+    },
+"otro": {
+    "etiquetas": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+        ],
+        "campos": [
+            "nombres",
+            "apellidos",
+            "email",
+            "telefono",
+            "factura",
+            "monto"
+        ]
+    }
+}

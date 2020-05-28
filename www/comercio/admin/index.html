@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, scalable=yes"> -->
+		<title>SGC Consultores C.A.</title>
+		<link rel="stylesheet" href="index.css">
+		<script type="text/javascript" src="../../js/funciones.js"></script>
+		<!-- <script type="text/javascript" src="index.js"></script> -->
+	</head>
+	<body onload='cargadatos()'>
+		<div id="container">
+			<div class="logo" align="center">
+				<img class="img-logo" id="logo" src="" alt="">
+			</div>
+			<h5>Modulo administrativo</h5>
+			<br/>
+			<div id="div1" align="center">
+				<!-- clave -->
+				<div class="cmps">
+					<span class="etiq">Clave</span>
+					<input id="clave" class="campo" type="password" size="50" maxlength="10" title="Introduzca la clave anterior" />
+				</div>
+				<div id="primeravez">
+					<p onclick="crearclave()"><a href="#">Para crear la clave por primera vez, haga click acá</a></p>
+				</div>
+				<!-- Linea de botones -->
+				<div class="btns">
+					<button id="enviar" style="width: 7em;" onclick="enviar()">Enviar</button>
+				</div>
+			</div>
+		</div>
+		<script>
+			// Variables públicas, constantes y función de transformación de números.
+			var ruta = "../../img/", idproveedor=sessionStorage.getItem("idproveedor"), datos= new FormData();
+
+			function cargadatos() {
+				// cargar parámetros de la tabla
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function () {
+					if (this.readyState == 4 && this.status == 200) {
+						respuesta = JSON.parse(this.responseText);
+						if (respuesta.exito == 'SI') {
+							document.title = respuesta.parametros.nombresistema;
+							sessionStorage.setItem("nombresistema", respuesta.parametros.nombresistema);
+						}
+					}
+				};
+				xmlhttp.open("GET", "../https://app.cash-flag.com/php/parametros.php", true);
+				xmlhttp.send();
+
+				var xmlhtt2 = new XMLHttpRequest();
+				xmlhtt2.onreadystatechange = function () {
+					if (this.readyState == 4 && this.status == 200) {
+						respuesta = JSON.parse(this.responseText);
+						if (respuesta.exito == 'SI') {
+							// document.title = 'Menú principal';
+							console.log(respuesta);
+							logo = respuesta.proveedor.logo;
+							if (logo!="") {
+								document.getElementById("logo").src = ruta + logo;
+							} else {
+								document.getElementById("logo").src = ruta + 'sin_imagen.jpg';
+							}
+							document.getElementById("logo").title = respuesta.proveedor.nombre;
+							if (respuesta.proveedor.sinclave) {
+								primeravez.style.display = 'block';
+							} else {
+								primeravez.style.display = 'none';
+							}
+						}
+					}
+				};
+				xmlhtt2.open("GET", "../https://app.cash-flag.com/php/proveedores.php?prov="+idproveedor, true);
+				xmlhtt2.send();
+			}
+
+			function enviar() {
+				if (clave.value=="" || clave.value==undefined) {
+					alert("Debe introducir la clave anterior");
+					document.getElementById("clave").focus();
+				} else {
+					datos.append("id_proveedor", idproveedor);
+					datos.append("clavecanje", document.getElementById("clave").value);
+
+					var xmlhttp = new XMLHttpRequest();
+					xmlhttp.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+							respuesta = JSON.parse(this.responseText);
+							if (respuesta.exito == 'SI') {
+								window.open("./cambiaclavecanje.html?idp="+idproveedor+"&flag=1","_self");
+							} else {
+								alert(fmensaje(respuesta.mensaje));
+								document.getElementById("clave").value = "";
+								document.getElementById("clave").focus();
+							}
+						}
+					};
+					xmlhttp.open("POST", "../https://app.cash-flag.com/php/clavecanje.php", false);
+					xmlhttp.send(datos);
+				}
+			}
+
+			function crearclave() {
+				window.open("./cambiaclavecanje.html?idp="+idproveedor+"&flag=0","_self");
+			}
+		</script>
+	</body>
+</html>

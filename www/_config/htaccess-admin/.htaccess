@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^admin.app.cash-flag.com$
+  RewriteRule (.*)$ http://www.app.cash-flag.com/admin/$1 [R=301,L]
+</IfModule>
